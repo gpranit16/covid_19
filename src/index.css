@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Roboto+Condensed:wght@400;700&family=Share+Tech+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-white font-heading m-0 p-0 antialiased overflow-x-hidden;
+  }
+}
+
+/* Custom scrollbar matching Neo Brutalism */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+  border-left: 2px solid #2A2A2A;
+}
+::-webkit-scrollbar-thumb {
+  background: #2A2A2A;
+  border: 2px solid #050505;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #F97316;
+}
+
+/* Custom Recharts overrides to fit Neo Brutalism theme */
+.recharts-default-tooltip {
+  background-color: #0E0E0E !important;
+  border: 2px solid #2A2A2A !important;
+  border-radius: 8px !important;
+  color: #fff !important;
+  font-family: 'Share Tech Mono', monospace !important;
+}
+
+.recharts-tooltip-label {
+  color: #F97316 !important;
+  font-weight: bold !important;
+}
+
+/* Smooth transitions */
+.transition-brutal {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
