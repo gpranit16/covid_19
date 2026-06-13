@@ -11,11 +11,13 @@ import PredictionsView from './components/PredictionsView';
 import ReportsView from './components/ReportsView';
 import SettingsView from './components/SettingsView';
 import AiInsightsPanel from './components/AiInsightsPanel';
+import LandingPage from './components/LandingPage';
 import { loadCovidData } from './utils/dataLoader';
 import { Loader2, AlertTriangle } from 'lucide-react';
 
 function DashboardContent() {
   const { density } = useSettings();
+  const [isLanding, setIsLanding] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -68,6 +70,10 @@ function DashboardContent() {
         return <DashboardView data={data} />;
     }
   };
+
+  if (isLanding) {
+    return <LandingPage onEnter={() => setIsLanding(false)} />;
+  }
 
   if (isLoading) {
     return (
