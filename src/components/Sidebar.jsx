@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen, onClose, activeTab, setActiveTab, data }) => {
       )}
 
       <aside
-        className={`w-72 bg-brand-card flex flex-col justify-between shrink-0 h-screen sticky top-0 z-50 transition-transform duration-300 fixed lg:static ${
+        className={`w-72 bg-brand-card flex flex-col justify-between shrink-0 h-screen z-50 transition-transform duration-300 fixed lg:sticky lg:top-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0`}
         style={getBrutalBorderClass()}
