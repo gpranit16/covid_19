@@ -23,6 +23,7 @@ function DashboardContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isInsightsOpen, setIsInsightsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -102,9 +103,15 @@ function DashboardContent() {
     density === 'compact' ? 'p-4' : density === 'cozy' ? 'p-10' : 'p-6';
 
   return (
-    <div className="flex bg-[#050505] text-white min-h-screen font-heading select-none">
+    <div className="flex bg-[#050505] text-white min-h-screen font-heading select-none relative overflow-x-hidden">
       {/* Sidebar navigation */}
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} data={data} />
+      <Sidebar
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        data={data}
+      />
       
       {/* Primary content area */}
       <div className="flex-grow flex flex-col overflow-x-hidden min-h-screen">
@@ -113,6 +120,7 @@ function DashboardContent() {
           data={data}
           toggleInsights={() => setIsInsightsOpen(!isInsightsOpen)}
           isInsightsOpen={isInsightsOpen}
+          onMenuClick={() => setIsSidebarOpen(true)}
         />
         <main className={`flex-grow overflow-y-auto ${paddingClass} bg-brand-bg`}>
           {renderActiveView()}

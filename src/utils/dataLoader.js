@@ -74,7 +74,6 @@ export const loadCovidData = async () => {
     skipEmptyLines: true,
   }).data;
 
-  const testingTimeline = [];
   const stateTestingMap = {};
 
   testingParsed.forEach((row) => {
@@ -104,14 +103,50 @@ export const loadCovidData = async () => {
       positivityRate: totalTested > 0 ? (positive / totalTested) * 100 : 0,
     };
 
-    if (state.toLowerCase() === 'india') {
-      testingTimeline.push(record);
-    } else {
+    if (state && state.toLowerCase() !== 'state pool') {
       if (!stateTestingMap[state]) {
         stateTestingMap[state] = [];
       }
       stateTestingMap[state].push(record);
     }
+  });
+
+  // Group all state records by date to construct the national testingTimeline
+  const nationalTestingMap = {};
+  Object.values(stateTestingMap).forEach((recordsList) => {
+    recordsList.forEach((rec) => {
+      if (!rec.date) return;
+      if (!nationalTestingMap[rec.date]) {
+        nationalTestingMap[rec.date] = {
+          date: rec.date,
+          state: 'India',
+          rtPcr: 0,
+          rat: 0,
+          otherTests: 0,
+          totalTested: 0,
+          positive: 0,
+          negative: 0,
+          icuBeds: 0,
+          oxygenBeds: 0,
+        };
+      }
+      const nat = nationalTestingMap[rec.date];
+      nat.rtPcr += rec.rtPcr;
+      nat.rat += rec.rat;
+      nat.otherTests += rec.otherTests;
+      nat.totalTested += rec.totalTested;
+      nat.positive += rec.positive;
+      nat.negative += rec.negative;
+      nat.icuBeds += rec.icuBeds;
+      nat.oxygenBeds += rec.oxygenBeds;
+    });
+  });
+
+  const testingTimeline = Object.values(nationalTestingMap).map((rec) => {
+    return {
+      ...rec,
+      positivityRate: rec.totalTested > 0 ? (rec.positive / rec.totalTested) * 100 : 0,
+    };
   });
 
   // Sort timelines by date ascending
